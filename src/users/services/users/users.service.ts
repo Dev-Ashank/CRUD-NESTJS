@@ -1,8 +1,8 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from 'src/dto/CreateUser.dto';
-import { UpdateUserDto } from 'src/dto/UpdateUser.dto';
-import { User } from 'src/entity/User';
+import { CreateUserDto } from 'src/users/dto/CreateUser.dto';
+import { UpdateUserDto } from 'src/users/dto/UpdateUser.dto';
+import { User } from 'src/users/entity/User';
 import { FindOneOptions, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { validate } from 'class-validator';
@@ -84,6 +84,7 @@ export class UsersService {
 
     }
 
+
     async findOneByIdAndUsername(id?: number, userName?: string): Promise<User | undefined> {
         const options: FindOneOptions<User> = {};
 
@@ -96,5 +97,12 @@ export class UsersService {
         }
 
         return await this.userRepository.findOne(options);
+    }
+
+    async findByEmail(email: string): Promise<User | undefined> {
+        return this.userRepository
+            .createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .getOne();
     }
 }
