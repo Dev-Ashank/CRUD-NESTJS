@@ -4,6 +4,7 @@ import { AuthService } from 'src/auth/services/auth/auth.service';
 import { User } from 'src/users/entity/User';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from 'src/auth/dto/login.dto';
+import { Public } from 'src/custom.decorator';
 
 
 @Controller('auth')
@@ -14,12 +15,14 @@ export class AuthController {
         private readonly jwtService: JwtService
     ) { }
 
+    @Public()
     @Post('signup')
     async signup(@Body() signupDto: SignupDto): Promise<{ message: string; user: User }> {
         const { message, user } = await this.authService.signup(signupDto);
         return { message, user };
     }
 
+    @Public()
     @Post('login')
     async login(@Body() loginDto: LoginDto): Promise<{ message: string; accessToken?: string }> {
         try {

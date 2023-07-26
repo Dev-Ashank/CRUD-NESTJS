@@ -27,7 +27,6 @@ export class AuthService {
             // Step 1: Retrieve the user from the database based on the provided email
             const user = await this.usersService.findByEmail(email);
 
-            console.log(user);
 
             // Step 2: Check if the user exists
             if (!user) {
@@ -45,17 +44,16 @@ export class AuthService {
             }
 
             // Step 5: Create the payload for the JWT token
-            const payload = { sub: user.email, username: user.userName, id: user.id };
-            console.log(payload);
+            const payload = { sub: user.id };
 
             try {
 
-                console.log('JWT Secret:', process.env.JWT_SECRET);
+                // console.log('JWT Secret:', process.env.JWT_SECRET);
                 // Step 6: Generate the JWT token asynchronously
                 const access_token = this.jwtService.sign(payload);
 
                 // Step 7: Token generation successful, log the token for debugging (optional)
-                console.log(access_token);
+                // console.log(access_token);
 
                 // Step 8: Return the success response with the access token
                 return {

@@ -4,6 +4,8 @@ import { AuthController } from './contollers/auth/auth.controller';
 import { AuthService } from './services/auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
+import { AuthGuard } from './auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 dotenv.config();
 
@@ -12,11 +14,14 @@ dotenv.config();
         JwtModule.register({
             global: true,
             secret: `${process.env.JWT_SECRET}`,
-            signOptions: { expiresIn: '60s' },
+            signOptions: { expiresIn: '1d' },
         }),
     ],
     controllers: [AuthController], // Declare the controllers used in this module
-    providers: [AuthService], // Declare the services used in this module
+    providers: [AuthService, {
+        provide: APP_GUARD,
+        useClass: AuthGuard,
+    }],
     exports: [AuthService],//Exports AuthService 
 })
 export class AuthModule {
