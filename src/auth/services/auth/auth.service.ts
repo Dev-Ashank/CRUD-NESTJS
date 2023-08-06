@@ -35,7 +35,6 @@ export class AuthService {
 
             // Step 3: Compare the provided password with the hashed password stored in the user object
             const isPasswordValid = await bcrypt.compare(password, user.password);
-            console.log(isPasswordValid);
 
 
             // Step 4: Check if the password is valid
