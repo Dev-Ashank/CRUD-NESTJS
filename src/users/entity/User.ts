@@ -1,3 +1,4 @@
+
 import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { IsString, IsEmail, Length, Matches, validate, IsLowercase } from 'class-validator';
 import * as bcrypt from 'bcrypt';
